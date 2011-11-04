@@ -66,9 +66,15 @@ Caman.manip.canvasLayer = function (manip) {
 
   // Define a getter for filter that returns the manip object so that we can use all of the normal
   // filters on this layer.
-  this.__defineGetter__("filter", function () {
-    return manip;
-  });
+  if (Object.prototype.__defineGetter__) {
+    this.__defineGetter__("filter", function () {
+      return manip;
+    });
+  } else if (Object.defineProperty) {
+    Object.defineProperty(this, "filter", {
+      get: function () { return manip; }
+    });
+  }
 
   return this;
 };
